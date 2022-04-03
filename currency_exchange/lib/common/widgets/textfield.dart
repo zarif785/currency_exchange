@@ -5,10 +5,11 @@ import '../theme/appTheme.dart';
 
 
 class TextFieldWidget extends StatefulWidget{
+  final TextEditingController controller;
   final String hintText;
   final String initialValue;
   final ValueChanged<String>? onTextChanged;
-  const TextFieldWidget({Key? key,required this.hintText, this.onTextChanged, this.initialValue="",}) : super(key: key);
+  const TextFieldWidget({Key? key,required this.hintText, this.onTextChanged, this.initialValue="", required this.controller,}) : super(key: key);
 
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
@@ -35,7 +36,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> with AppTheme {
       child: TextField(
         enabled: true,
         textAlign: TextAlign.end,
-        controller: _controller,
+        controller: widget.controller,
         keyboardType: TextInputType.number,
         maxLines: 1,
         minLines: 1,

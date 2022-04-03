@@ -6,6 +6,8 @@ import 'package:currency_exchange/model/Currency.dart';
 import 'package:currency_exchange/module/home_screen/gateway/home_screen_gateway.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../common/utils/Toasty.dart';
+
 mixin HomeScreenService<T extends StatefulWidget>on State<T>{
 
 
@@ -14,7 +16,6 @@ mixin HomeScreenService<T extends StatefulWidget>on State<T>{
 
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-
     });
   }
 
@@ -44,8 +45,8 @@ mixin HomeScreenService<T extends StatefulWidget>on State<T>{
     await HomeScreenGateway.getCurrencyList().then((value){
 
       if(value.isSuccess==true){
-
         _currencyListSink?.add(DataLoadedState(value.data!));
+
 
       }
 
@@ -53,12 +54,15 @@ mixin HomeScreenService<T extends StatefulWidget>on State<T>{
 
   }
 
-  void getConvertedAmount(String from, String to, double amount){
+  void getConvertedAmount(String from, String to,double amount){
 
     HomeScreenGateway.getConvertedData(from: from, to: to, amount: amount).then((value) {
       if(value.isSuccess==true){
         String toAmount = value.data!.rates.gBP.rateForAmount;
         _convertorListSink?.add(toAmount);
+      }
+      else{
+        Toasty.of(context).showError(message: "Could not find currency.Try Again");
       }
 
 

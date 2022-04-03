@@ -1,4 +1,5 @@
 
+import 'package:currency_exchange/module/tabView_screen/screen/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'module/home_screen/screen/home_screen.dart';
 import 'module/splash_screen/screen/splash_screen.dart';
@@ -8,6 +9,8 @@ class AppRoute{
 
   static const String splashScreen = 'splashScreen';
   static const String homeScreen = 'homeScreen';
+  static const String tabScreen = 'tabScreen';
+  static const String recentScreen = 'recentScreen';
 
 }
 
@@ -17,6 +20,8 @@ mixin RouteGenerator{
     return FadeInOutRouteBuilder(builder: (context){
       switch(settings.name){
         case AppRoute.homeScreen : return const HomeScreen();
+        case AppRoute.tabScreen : return const TabScreen();
+        case AppRoute.recentScreen : return const TabScreen();
         default:
           return  const SplashScreen();
           // return const SplashScreen();

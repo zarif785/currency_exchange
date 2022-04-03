@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 abstract class _ViewModel{
-  void navigateToHomeScreen();
+  void navigateToTabScreen();
 }
 
 mixin SplashScreenService <T extends StatefulWidget> on State<T> implements _ViewModel{
@@ -19,7 +19,7 @@ mixin SplashScreenService <T extends StatefulWidget> on State<T> implements _Vie
   void _fetchUserSession() async{
     ///Delayed for 2 seconds
     await Future.delayed(const Duration(milliseconds:2000));
-    _view.navigateToHomeScreen();
+    _view.navigateToTabScreen();
 
   }
 
