@@ -1,4 +1,6 @@
 
+import 'package:currency_exchange/module/favorites_screen/screen/favorties_screen.dart';
+import 'package:currency_exchange/module/recent_screen/screen/recent_screen.dart';
 import 'package:currency_exchange/module/tabView_screen/screen/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'module/home_screen/screen/home_screen.dart';
@@ -11,6 +13,7 @@ class AppRoute{
   static const String homeScreen = 'homeScreen';
   static const String tabScreen = 'tabScreen';
   static const String recentScreen = 'recentScreen';
+  static const String favortiesScreen = 'favortiesScreen';
 
 }
 
@@ -21,7 +24,9 @@ mixin RouteGenerator{
       switch(settings.name){
         case AppRoute.homeScreen : return const HomeScreen();
         case AppRoute.tabScreen : return const TabScreen();
-        case AppRoute.recentScreen : return const TabScreen();
+        case AppRoute.recentScreen : return const RecentScreen();
+        case AppRoute.favortiesScreen : return const FavortiesScreen();
+
         default:
           return  const SplashScreen();
           // return const SplashScreen();

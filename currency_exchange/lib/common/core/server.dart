@@ -93,6 +93,31 @@ class Server{
       return ServerResponse(success: false, data: _, message: "Request failed! Unknown error occurred.");
     }
   }
+
+
+  Future<ServerResponse> postRequest2({required String url, required Map postData,}) async {
+    try {
+      var body = json.encode(postData);
+      var response = await _client.post(
+        Uri.parse("$host/api/$url"),
+        headers: {"Accept": "application/json", "Content-Type": "application/json",},
+        body: body,
+      );
+      debugPrint("REQUEST => ${response.request.toString()}");
+      debugPrint("REQUEST DATA => $body");
+      debugPrint("RESPONSE DATA => ${response.body.toString()}");
+
+      var jsonData = jsonDecode(response.body);
+      return ServerResponse.fromJsonV2(jsonData);
+    }
+    on SocketException catch(_){
+      return ServerResponse(success: false, data: _, message:  "Request failed!. Check internet connection.");
+    }
+    on Exception catch(_)
+    {
+      return ServerResponse(success: false, data: _, message: "Request failed! Unknown error occurred.");
+    }
+  }
   // Future<dynamic> deleteRequest({required String url,String? token}) async {
   //   try {
   //     var response = await _client.delete(

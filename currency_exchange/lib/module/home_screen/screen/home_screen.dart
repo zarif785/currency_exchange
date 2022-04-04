@@ -4,6 +4,7 @@ import 'package:currency_exchange/module/home_screen/service/home_screen_service
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../app_route.dart';
 import '../../../common/widgets/CurrencySelectDropDownList.dart';
 import '../../../common/widgets/textfield.dart';
 
@@ -18,8 +19,10 @@ class _HomeScreenState extends State<HomeScreen>
     with AppTheme, HomeScreenService {
   bool isStrechedFromDropDown = false;
   bool isStrechedToDropDown = false;
-  final TextEditingController amountController = TextEditingController(text: "0.0");
-
+  final TextEditingController amountController = TextEditingController(text: "0");
+  int from_id =0;
+  int to_id=0;
+  late double amount_to;
   String label = "Select Currency";
   String toLabel = "Select Currency";
   @override
@@ -30,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen>
       body: SingleChildScrollView(
         child: Stack(
           children: [
+
             Container(
               height: 380.0.w,
               decoration: BoxDecoration(
@@ -38,6 +42,22 @@ class _HomeScreenState extends State<HomeScreen>
                 borderRadius: BorderRadius.vertical(
                     bottom: Radius.elliptical(
                         MediaQuery.of(context).size.width, 100.0)),
+              ),
+            ),
+            Positioned(
+              top: 30,
+              right: 10,
+              child: GestureDetector(
+                onTap: navigateToRecentScreen,
+                child: Icon(Icons.history_outlined,color: clr.appWhite,),
+              ),
+            ),
+            Positioned(
+              top: 30.w,
+              left: 15.w,
+              child: GestureDetector(
+                onTap: navigateToFavoriteScreen,
+                child: Icon(Icons.favorite,color: clr.appWhite,),
               ),
             ),
             Positioned(
@@ -66,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen>
               alignment: Alignment.center,
               child: Container(
                 margin: EdgeInsets.only(top: 150.w, bottom: 80.w),
-                height: 460.w,
+                height: 490.w,
                 width: 370.w,
                 decoration: BoxDecoration(
                     color: clr.appWhite,
@@ -141,15 +161,16 @@ class _HomeScreenState extends State<HomeScreen>
                     const SizedBox(height: 60),
                     GestureDetector(
                       onTap: (){
-                        if(double.parse(amountController.text)<0){
+                        if(double.parse(amountController.text)<=0){
                           Toasty.of(context).showError(message: "Enter a valid number");
                         }
                         else if(amountController.text.length>16){
                         Toasty.of(context).showError(message: "Enter upto 16 digits");
 
                         }
-                        else{
-                          getConvertedAmount(label.substring(0,3), toLabel.substring(0,3), double.parse(amountController.text));
+                        else {
+                          getConvertedAmount(label.substring(0,3), toLabel.substring(0,3), double.parse(amountController.text),from_id,to_id);
+
                         }
 
                       },
@@ -207,6 +228,7 @@ class _HomeScreenState extends State<HomeScreen>
                                         setState(() {
                                           label =
                                               '${content.currencyShort}-${content.currencyLong}';
+                                          from_id = content.id;
                                           isStrechedFromDropDown =
                                               !isStrechedFromDropDown;
                                         });
@@ -266,6 +288,9 @@ class _HomeScreenState extends State<HomeScreen>
                                         setState(() {
                                           toLabel =
                                               '${content[index].currencyShort}-${content[index].currencyLong}';
+
+
+                                          to_id =content[index].id;
                                           isStrechedToDropDown =
                                               !isStrechedToDropDown;
                                         });
@@ -341,5 +366,15 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       ),
     );
+  }
+
+  @override
+  void navigateToFavoriteScreen() {
+    Navigator.of(context).pushNamed(AppRoute.favortiesScreen);
+  }
+
+  @override
+  void navigateToRecentScreen() {
+    Navigator.of(context).pushNamed(AppRoute.recentScreen);
   }
 }

@@ -30,6 +30,6 @@ class _SplashScreenState extends State<SplashScreen> with SplashScreenService,Ap
 
   @override
   void navigateToTabScreen() {
-    Navigator.of(context).pushNamed(AppRoute.tabScreen);
+    Navigator.of(context).pushNamed(AppRoute.homeScreen);
   }
 }

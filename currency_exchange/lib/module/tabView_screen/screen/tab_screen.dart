@@ -1,5 +1,6 @@
 import 'package:currency_exchange/module/home_screen/screen/home_screen.dart';
 import 'package:currency_exchange/module/recent_screen/screen/recent_screen.dart';
+import 'package:currency_exchange/module/recent_screen/service/recent_screen_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/widgets/customAnimatedBottomBar.dart';
@@ -11,7 +12,10 @@ class TabScreen extends StatefulWidget {
   State<TabScreen> createState() => _TabScreenState();
 }
 
-class _TabScreenState extends State<TabScreen> {
+class _TabScreenState extends State<TabScreen>{
+
+
+
   int _currentIndex = 0;
   final _inactiveColor = Colors.grey;
   @override

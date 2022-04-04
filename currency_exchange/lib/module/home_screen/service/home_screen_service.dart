@@ -4,16 +4,25 @@ import 'dart:async';
 import 'package:currency_exchange/model/Convertor.dart';
 import 'package:currency_exchange/model/Currency.dart';
 import 'package:currency_exchange/module/home_screen/gateway/home_screen_gateway.dart';
+import 'package:currency_exchange/module/recent_screen/service/recent_screen_service.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../common/utils/Toasty.dart';
 
-mixin HomeScreenService<T extends StatefulWidget>on State<T>{
 
+abstract class _ViewModel{
+
+  void navigateToRecentScreen();
+  void navigateToFavoriteScreen();
+}
+
+
+mixin HomeScreenService<T extends StatefulWidget>on State<T>implements _ViewModel{
+  late _ViewModel _view;
 
   @override
   void initState() {
-
+    _view = this;
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
     });
@@ -54,12 +63,14 @@ mixin HomeScreenService<T extends StatefulWidget>on State<T>{
 
   }
 
-  void getConvertedAmount(String from, String to,double amount){
+   void getConvertedAmount(String from, String to,double amount,int fromId,int toId){
 
     HomeScreenGateway.getConvertedData(from: from, to: to, amount: amount).then((value) {
       if(value.isSuccess==true){
         String toAmount = value.data!.rates.gBP.rateForAmount;
         _convertorListSink?.add(toAmount);
+        setConvertedData(from, to, amount, double.parse(toAmount),fromId,toId);
+
       }
       else{
         Toasty.of(context).showError(message: "Could not find currency.Try Again");
@@ -71,6 +82,33 @@ mixin HomeScreenService<T extends StatefulWidget>on State<T>{
 
   }
 
+  void setConvertedData(String currency_from,String currency_to, double amount_from,double amount_to,int fromID, int toId){
+
+
+    HomeScreenGateway.setConvertedData(currency_from, currency_to, amount_from,amount_to,fromID,toId).then((value){
+
+      if(value.isSuccess==true){
+
+      }
+      else{
+        print(value.message);
+        Toasty.of(context).showError(message:value.message);
+      }
+
+    });
+
+  }
+
+
+  void recentPageNavigate(){
+    _view.navigateToRecentScreen();
+
+  }
+
+  void favoritePageNavigate(){
+    _view.navigateToFavoriteScreen();
+
+  }
 
 }
 
