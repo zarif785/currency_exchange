@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:currency_exchange/common/utils/validator.dart';
 import 'package:currency_exchange/model/Convertor.dart';
 import 'package:currency_exchange/model/Currency.dart';
 import 'package:currency_exchange/module/home_screen/gateway/home_screen_gateway.dart';
@@ -63,13 +64,21 @@ mixin HomeScreenService<T extends StatefulWidget>on State<T>implements _ViewMode
 
   }
 
-   void getConvertedAmount(String from, String to,double amount,int fromId,int toId){
+   void getConvertedAmount(String from, String to,String amount,int fromId,int toId){
+     double? amountFrom;
+    if(Validator.isValidNumber(amount)){
+      amountFrom = double.tryParse(amount);
+    }
+    else{
+      Toasty.of(context).showError(message: "Not a Valid Number");
+    }
 
-    HomeScreenGateway.getConvertedData(from: from, to: to, amount: amount).then((value) {
+
+    HomeScreenGateway.getConvertedData(from: from, to: to, amount: amountFrom!).then((value) {
       if(value.isSuccess==true){
         String toAmount = value.data!.rates.gBP.rateForAmount;
         _convertorListSink?.add(toAmount);
-        setConvertedData(from, to, amount, double.parse(toAmount),fromId,toId);
+        setConvertedData(from, to, amountFrom!, double.parse(toAmount),fromId,toId);
 
       }
       else{

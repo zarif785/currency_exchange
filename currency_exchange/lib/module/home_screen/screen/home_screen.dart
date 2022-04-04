@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../app_route.dart';
+import '../../../common/utils/validator.dart';
 import '../../../common/widgets/CurrencySelectDropDownList.dart';
 import '../../../common/widgets/textfield.dart';
 
@@ -161,6 +162,10 @@ class _HomeScreenState extends State<HomeScreen>
                     const SizedBox(height: 60),
                     GestureDetector(
                       onTap: (){
+                        if(!Validator.isValidNumber(amountController.text)){
+                          Toasty.of(context).showError(message: "Number Invalid");
+                        }
+
                         if(double.parse(amountController.text)<=0){
                           Toasty.of(context).showError(message: "Enter a valid number");
                         }
@@ -169,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen>
 
                         }
                         else {
-                          getConvertedAmount(label.substring(0,3), toLabel.substring(0,3), double.parse(amountController.text),from_id,to_id);
+                          getConvertedAmount(label.substring(0,3), toLabel.substring(0,3), amountController.text,from_id,to_id);
 
                         }
 

@@ -24,7 +24,10 @@ mixin Validator{
   {
     return RegExp(r"^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$").hasMatch(email);
   }
-
+  static  bool isValidNumber(String number)
+  {
+    return RegExp(r"^[0-9]+\.?[0-9]*|\.[0-9]+$").hasMatch(number);
+  }
   static bool isEmpty(String? value)
   {
     return value == null || value.isEmpty || value.trim().isEmpty;
