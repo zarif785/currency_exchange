@@ -39,41 +39,66 @@ class CurrencyController extends Controller
 
         }
         if(!empty($currency)){
-            return[
-                'message'=> "OK",
-                'data'=> $currency,
-                'status'=>true
-              ];
+            return $currency;
         }
-        else{
-            return[
-                'message'=> "Could not generate currency List. Try Again Later",
-                'data'=> [],
-                'status'=>false
-              ];
-        }
+
 
 
 
     }
 
+    // public function index(Request $request){
+    //     $data = Currencies::orderBy('currency_short', 'asc')->get();
+
+    //     if(!empty($data)){
+    //         return[
+    //             'message'=> "OK",
+    //             'data'=> $data,
+    //             'status'=>true
+    //           ];
+    //     }
+    //     else{
+    //         return[
+    //             'message'=> "Could not generate currency List. Try Again Later",
+    //             'data'=> [],
+    //             'status'=>false
+    //           ];
+    //     }
+    // }
+
+
     public function index(Request $request){
         $data = Currencies::orderBy('currency_short', 'asc')->get();
 
-        if(!empty($data)){
+        if($data->isEmpty()){
+
+         $data = $this->insert();
+         return[
+            'message'=> "OK",
+            'data'=> $data,
+            'status'=>true
+          ];
+
+        }
+        else{
             return[
                 'message'=> "OK",
                 'data'=> $data,
                 'status'=>true
               ];
         }
-        else{
-            return[
-                'message'=> "Could not generate currency List. Try Again Later",
-                'data'=> [],
-                'status'=>false
-              ];
-        }
+    }
+
+
+    public function search($currency_long){
+        
+        $data = Currencies::where('currency_long','like','%'.$currency_long.'%')->get();
+        return[
+            'message'=> "OK",
+            'data'=> $data,
+            'status'=>true
+          ];
+    
     }
 
     public function tableJoin(){

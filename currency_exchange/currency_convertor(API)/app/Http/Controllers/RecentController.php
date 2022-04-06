@@ -62,11 +62,34 @@ class RecentController extends Controller
 
     }
 
+
+    // public function recent_conv(){
+
+    //     $data= Recent::simplePaginate(5);
+
+    //     if(!empty($data)){
+    //         return[
+    //             'message'=> "OK",
+    //             'data'=> $data,
+    //             'status'=>true
+    //           ];
+    //     }
+    //     else{
+    //         return[
+    //             'message'=> "NOT OK",
+    //             'data'=> [],
+    //             'status'=>false
+    //           ];
+    //     }
+        
+
+    // }
     public function popular(){
 
         $data = DB::table('recents')
         ->select(['recents.currency_from','recents.currency_to',(DB::raw('COUNT(recents.from_id)'))])
         ->groupBy('recents.currency_from','recents.currency_to')
+        ->having((DB::raw('COUNT(recents.from_id)')),'>', 1)
         ->orderBy((DB::raw('COUNT(recents.from_id)')),'desc')
         ->take(10)
         ->get();

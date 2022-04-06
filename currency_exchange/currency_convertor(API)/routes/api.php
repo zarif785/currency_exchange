@@ -23,7 +23,7 @@ Route::get('/currency/to',[CurrencyController::class, 'toJoin']);
 Route::post('/recent',[RecentController::class, 'store']);
 Route::get('/recent',[RecentController::class, 'recent_conv']);
 Route::get('/popular',[RecentController::class, 'popular']);
-
+Route::get('/currency/search/{currency_long}',[CurrencyController::class, 'search']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
