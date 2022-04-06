@@ -1,3 +1,4 @@
+import 'package:currency_exchange/module/home_screen/screen/pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: "CV Maker",
           onGenerateRoute: RouteGenerator.generate,
+          // onGenerateRoute: RouteGenerator.generate,
         )
     );
   }

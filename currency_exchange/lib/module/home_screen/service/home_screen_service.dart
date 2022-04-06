@@ -7,6 +7,7 @@ import 'package:currency_exchange/model/Currency.dart';
 import 'package:currency_exchange/module/home_screen/gateway/home_screen_gateway.dart';
 import 'package:currency_exchange/module/recent_screen/service/recent_screen_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../common/utils/Toasty.dart';
 
@@ -50,12 +51,18 @@ mixin HomeScreenService<T extends StatefulWidget>on State<T>implements _ViewMode
           ? _convertorStreamController.sink
           : null;
 
-  void getCurrencyList()async{
+  void getCurrencyList(String name)async{
 
-    await HomeScreenGateway.getCurrencyList().then((value){
+    await HomeScreenGateway.getCurrencyList(name).then((value){
 
       if(value.isSuccess==true){
-        _currencyListSink?.add(DataLoadedState(value.data!));
+        if(value.data!.currencyList.isNotEmpty){
+          _currencyListSink?.add(DataLoadedState(value.data!));
+        }
+        else{
+          _currencyListSink?.add(EmptyState(message: 'No Such Currency',));
+        }
+
 
 
       }
@@ -78,8 +85,10 @@ mixin HomeScreenService<T extends StatefulWidget>on State<T>implements _ViewMode
       if(value.isSuccess==true){
         String toAmount = value.data!.rates.gBP.rateForAmount;
         _convertorListSink?.add(toAmount);
-        setConvertedData(from, to, amountFrom!, double.parse(toAmount),fromId,toId);
-
+        if(amountFrom!>0) {
+          setConvertedData(
+              from, to, amountFrom, double.parse(toAmount), fromId, toId);
+        }
       }
       else{
         Toasty.of(context).showError(message: "Could not find currency.Try Again");
@@ -125,7 +134,11 @@ abstract class PageState {}
 
 class LoadingState extends PageState {}
 
-class EmptyState extends PageState {}
+class EmptyState extends PageState{
+  final String message;
+  IconData icon;
+  EmptyState({required this.message, this.icon = Icons.weekend_outlined});
+}
 
 class DataLoadedState extends PageState {
   final CurrencyList data;

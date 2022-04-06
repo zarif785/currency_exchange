@@ -66,24 +66,37 @@ class _FavortiesScreenState extends State<FavortiesScreen> with AppTheme,Favorit
                                 ),
                               ]),
                           child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            child: Column(
                               children: [
-                                Text(
-                                    e.currencyFrom,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: size.textLarge
-                                    ),
-                                ),
-                                Icon(Icons.arrow_forward,size: size.s42,),
-                                Text(
-                                  e.currencyTo,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: size.textLarge
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                          e.currencyFrom,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: size.textLarge
+                                          ),
+                                      ),
+                                      Icon(Icons.arrow_forward,size: size.s42,),
+                                      Text(
+                                        e.currencyTo,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: size.textLarge
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                    child: Padding(
+                                      padding:  const EdgeInsets.only(right: 20.0),
+                                      child: Text('Number of Checks: ${e.count.toString()}'),
+                                    ))
                               ],
                             ),
                           ),

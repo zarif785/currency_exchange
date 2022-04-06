@@ -9,9 +9,9 @@ import '../../../common/core/server.dart';
 
 mixin HomeScreenGateway{
   
-  static Future<ActionResult<CurrencyList>> getCurrencyList(){
+  static Future<ActionResult<CurrencyList>> getCurrencyList(String name){
     
-    return Server.instance.getRequest(url: 'currency/get').then((value){
+    return Server.instance.getRequest(url: 'currency/search/$name').then((value){
         return ActionResult<CurrencyList>.fromServerResponse(
             response: value,
             generateData: (x)=> CurrencyList.fromJsonList(x)
